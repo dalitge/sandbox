@@ -1,0 +1,45 @@
+pipeline {
+    agent none
+    stages {
+          stage('Stage 1') {
+            steps {
+                     build job: 'freestyle-01.5', wait: false
+		  }
+         	}
+		stage('Stage 1.5') {
+            steps {
+                     build job: 'freestyle-01', wait: true
+		  }
+         	}
+		 stage('Stage 2') {
+            steps {
+                     build job: 'freestyle-02', wait: true
+		  }
+                }
+        stage('Back-end') {
+            agent {
+                docker { image 'maven:3-alpine' }
+            }
+            steps {
+                sh 'mvn --version'
+            }
+        }
+        stage('Front-end') {
+            agent {
+                docker { image 'node:7-alpine' }
+            }
+            steps {
+                sh 'node --version'
+		sh 'sleep 10'
+                  }
+	    }
+	}
+}
+#comment
+<<<<<<< HEAD
+=======
+#comment 02
+#comment 03
+#comment 04
+#comment 05
+>>>>>>> branch_01
